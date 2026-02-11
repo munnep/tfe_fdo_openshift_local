@@ -65,7 +65,7 @@ Download your pull secret from: https://console.redhat.com/openshift/create/loca
 
 - Setup CRC
 
-Download de software and install  
+Download the software and install  
 ![](media/2026-02-11-09-47-31.png)
 
 ```bash
