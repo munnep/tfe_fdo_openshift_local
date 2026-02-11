@@ -175,7 +175,7 @@ The command is given in the output with `tfe_execute_script_to_create_user_admin
 Note:  
 `terraform destroy` will not destroy the cloudflare tunnel.  
 You will need to delete this manually with the command shown after the apply.  
-Default is `cloudflared tunnel delete tfe-tunnel-minikube`.  
+Default is `cloudflared tunnel delete tfe-tunnel-openshift`.  
 
 The UI interface cloudflare tunnel:  
 ![](media/2026-01-23-13-01-37.png)  
