@@ -18,9 +18,9 @@ This guide documents how to set up a local OpenShift environment using CodeReady
   - [Check Status](#check-status)
   - [Stop the Cluster](#stop-the-cluster)
   - [Delete and Recreate](#delete-and-recreate)
-- [Networking](#networking)
-- [Troubleshooting](#troubleshooting)
-- [Documentation](#documentation)
+  - [Networking](#networking)
+  - [Troubleshooting](#troubleshooting)
+  - [Documentation](#documentation)
 
 ## Prerequisites
 
@@ -225,7 +225,7 @@ crc start
 
 > **Note:** Deleting will remove all data. Use `crc stop` to preserve state.
 
-## Networking
+### Networking
 
 CRC uses a local DNS domain for routing:
 
@@ -237,15 +237,15 @@ CRC uses a local DNS domain for routing:
 
 > **Note:** CRC is only accessible from your local machine. The `.testing` domain is not publicly routable.
 
-## Troubleshooting
+### Troubleshooting
 
-### View Current Config
+#### View Current Config
 
 ```bash
 crc config view
 ```
 
-### Update Pull Secret
+#### Update Pull Secret
 
 ```bash
 crc stop
@@ -253,6 +253,6 @@ crc config set pull-secret-file /path/to/pull-secret.json
 crc start
 ```
 
-## Documentation
+### Documentation
 
 - CRC Docs: https://crc.dev/docs/using/
