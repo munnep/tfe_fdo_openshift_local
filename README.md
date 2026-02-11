@@ -2,30 +2,33 @@
 
 This guide documents how to set up a local OpenShift environment using CodeReady Containers (CRC) for Terraform Enterprise FDO development and testing.
 
-## Table of Contents
+# Table of Contents
 
 - [Prerequisites](#prerequisites)
-- [Architecture OpenShift Local (CRC)](#architecture-openshift-local-crc)
-- [Architecture Terraform Enterprise on CRC](#architecture-terraform-enterprise-on-crc)
+- [Architecture](#architecture)
+  - [Architecture OpenShift Local (CRC)](#architecture-openshift-local-crc)
+  - [Architecture Terraform Enterprise on CRC](#architecture-terraform-enterprise-on-crc)
 - [Installation CRC](#installation-crc)
-- [Accessing the Cluster](#accessing-the-cluster)
-  - [Web Console](#web-console)
-  - [CLI Access](#cli-access)
-  - [Default Credentials](#default-credentials)
+  - [Accessing the Cluster](#accessing-the-cluster)
+- [Cloudflare](#cloudflare)
+  - [Create Cloudflare API Token](#create-cloudflare-api-token)
 - [Deploying Terraform Enterprise on CRC](#deploying-terraform-enterprise-on-crc)
-- [Proxy Pod (Squid Server)](#proxy-pod-squid-server)
+  - [Proxy Pod (Squid Server)](#proxy-pod-squid-server)
 - [Managing the Cluster](#managing-the-cluster)
   - [Check Status](#check-status)
   - [Stop the Cluster](#stop-the-cluster)
   - [Delete and Recreate](#delete-and-recreate)
   - [Networking](#networking)
   - [Troubleshooting](#troubleshooting)
-  - [Documentation](#documentation)
 
-## Prerequisites
+# Prerequisites
 
+- macOS with sufficient resources (recommended: 6+ CPU cores, 16+ GB RAM)
+- Cloudflare account with API token (DNS and Tunnel permissions required)
 - Red Hat account for pull secret 
-- Sufficient system resources (16GB+ RAM recommended)
+
+
+# Architecture
 
 ## Architecture OpenShift Local (CRC)
 
@@ -52,7 +55,7 @@ Your Mac
 
 
 
-## Installation CRC
+# Installation CRC
 
 - Get Pull Secret
 
@@ -123,7 +126,37 @@ To retrieve credentials if forgotten:
 crc console --credentials
 ```
 
-## Deploying Terraform Enterprise on CRC
+# Cloudflare
+Cloudflare is used for DNS a record and a tunnel, to be able to reach TFE from externally.  
+
+Fill your Cloudflare account id in at `cloudflare_account_id` in the `variables.auto.tfvars`.  
+Fill your Cloudflare api token in at `cloudflare_api_token` in the `variables.auto.tfvars`.  
+(Your api token must have edit permissions for DNS and Tunnels.). 
+
+## Create Cloudflare api token
+Log in to your Cloudflare account and go to: https://dash.cloudflare.com/profile/api-tokens  
+![](media/2025-10-27-13-45-05.png)  
+Click `Create Token`.
+
+![](media/2025-10-27-13-46-19.png)  
+Click `Get started` under `Custom token`.  
+
+![](media/2025-10-27-14-55-35.png)
+Give your token a useful name.
+And select the permissions:
+- Account   Cloudflare Tunnel   edit  
+- Zone      DNS                 edit
+
+There are other options to further restrict access, like which Zone, Account or client ip have access.
+You can also set a TTL on your token.
+Edit these as you see fit.
+
+Click `Continue to summary`.  
+Click `Create Token`.  
+Copy the token and enter it as the value for `cloudflare_api_token`.  
+
+
+# Deploying Terraform Enterprise on CRC
 
 - Create a file called `variables.auto.tfvars` file and adjust all settings to your needs.  
 
@@ -192,9 +225,9 @@ enable_proxy = true
 ```
 
 
-## Managing the Cluster
+# Managing the Cluster
 
-### Check Status
+## Check Status
 
 ```bash
 crc status
@@ -210,13 +243,13 @@ Cache Usage:     40.22GB
 Cache Directory: /Users/patrick/.crc/cache
 ```
 
-### Stop the Cluster
+## Stop the Cluster
 
 ```bash
 crc stop
 ```
 
-### Delete and Recreate
+## Delete and Recreate
 
 ```bash
 crc delete
@@ -225,7 +258,7 @@ crc start
 
 > **Note:** Deleting will remove all data. Use `crc stop` to preserve state.
 
-### Networking
+## Networking
 
 CRC uses a local DNS domain for routing:
 
@@ -237,15 +270,15 @@ CRC uses a local DNS domain for routing:
 
 > **Note:** CRC is only accessible from your local machine. The `.testing` domain is not publicly routable.
 
-### Troubleshooting
+## Troubleshooting
 
-#### View Current Config
+### View Current Config
 
 ```bash
 crc config view
 ```
 
-#### Update Pull Secret
+### Update Pull Secret
 
 ```bash
 crc stop
