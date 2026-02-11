@@ -56,6 +56,13 @@ env:
     TFE_REDIS_HOST: ${redis_host}:${redis_port}
     TFE_IACT_SUBNETS: "0.0.0.0/0"
 
+%{ if enable_proxy ~}
+    # proxy settings
+    http_proxy: http://${tag_prefix}-squid:3128
+    https_proxy: http://${tag_prefix}-squid:3128
+    no_proxy: localhost,127.0.0.1,169.254.169.24,${fqdn},${tag_prefix}-seaweedfs.${namespace}.svc.cluster.local
+%{ endif ~}    
+
   secrets:
     TFE_DATABASE_PASSWORD: ${pg_password}
     TFE_ENCRYPTION_PASSWORD:  ${enc_password}

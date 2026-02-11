@@ -49,6 +49,7 @@ resource "helm_release" "tfe" {
       tfe_release         = var.release_sequence
       registry_images_url = var.registry_images_url
       tfe_agent_image     = var.tfe_agent_image
+      enable_proxy        = var.enable_proxy
     })
   ]
 }
