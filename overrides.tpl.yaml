@@ -3,6 +3,7 @@ image:
   repository: ${registry_images_url}
   name: hashicorp/terraform-enterprise
   tag: ${tfe_release}
+  pullPolicy: IfNotPresent
 
 resources:
   requests:
@@ -11,6 +12,17 @@ resources:
   limits:
     memory: "6000Mi"
     cpu: "4000m"
+
+# agentWorkerPodTemplate:
+#   # metadata:
+#   #   labels:
+#   #     info: pod-template-info-hashicorp
+#   spec:
+#     containers:
+#       - image: "patrickmunne3/custom-agent-openshift:v1.5"
+#         env:
+#           - name: TFC_AGENT_LOG_LEVEL
+#             value: TRACE
 
 service:
   annotations:
@@ -47,14 +59,11 @@ env:
     TFE_EXPLORER_DATABASE_NAME: "tfe_explorer"
     TFE_EXPLORER_DATABASE_PARAMETERS: sslmode=disable
 
-    TFE_EXPLORER_DATABASE_USER: ${pg_user}
-    TFE_EXPLORER_DATABASE_PASSWORD: ${pg_password}
-    TFE_EXPLORER_DATABASE_HOST: ${pg_address}
-    TFE_EXPLORER_DATABASE_NAME: "tfe_explorer"
-    TFE_EXPLORER_DATABASE_PARAMETERS: sslmode=disable
 
     TFE_REDIS_HOST: ${redis_host}:${redis_port}
     TFE_IACT_SUBNETS: "0.0.0.0/0"
+
+
 
 %{ if enable_proxy ~}
     # proxy settings
