@@ -177,6 +177,12 @@ variable "tfe_raw_license" {
   type        = string
 }
 
+variable "tfe_helm_version" {
+  description = "The helm TFE version string"
+  type        = string
+  default     = "1.6.8"
+}
+
 variable "replica_count" {
   description = "Number of replicas (pods)."
   type        = number

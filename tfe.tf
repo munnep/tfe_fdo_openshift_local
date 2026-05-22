@@ -22,7 +22,7 @@ resource "helm_release" "tfe" {
   repository      = "https://helm.releases.hashicorp.com"
   chart           = "terraform-enterprise"
   namespace       = kubernetes_namespace_v1.terraform_enterprise[var.namespace].metadata.0.name
-  version         = "1.6.5"
+  version         = var.tfe_helm_version
   cleanup_on_fail = true
   timeout         = var.helm_timeout
 
